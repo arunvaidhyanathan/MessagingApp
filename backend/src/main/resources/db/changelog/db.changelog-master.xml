@@ -6,4 +6,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <include file="db/changelog/changelog-v1-communication.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/changelog-v2-geo-hierarchy.sql" relativeToChangelogFile="false"/>
 </databaseChangeLog>

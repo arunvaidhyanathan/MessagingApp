@@ -1,25 +1,29 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { Message } from '../types';
 import MessageBubble from './MessageBubble';
 import MessageComposer from './MessageComposer';
 
 const POLL_INTERVAL_MS = 15_000;
 
-const CommunicationFeed = ({ caseId }) => {
-  const [messages, setMessages]     = useState([]);
-  const [replyingTo, setReplyingTo] = useState(null);
-  const [loading, setLoading]       = useState(true);
-  const [error, setError]           = useState(null);
+interface CommunicationFeedProps {
+  caseId: string;
+}
 
-  const fetchMessages = useCallback(async () => {
+const CommunicationFeed: React.FC<CommunicationFeedProps> = ({ caseId }) => {
+  const [messages, setMessages]     = useState<Message[]>([]);
+  const [replyingTo, setReplyingTo] = useState<Message | null>(null);
+  const [loading, setLoading]       = useState<boolean>(true);
+  const [error, setError]           = useState<string | null>(null);
+
+  const fetchMessages = useCallback(async (): Promise<void> => {
     try {
       const res = await fetch(`/api/v1/communications?caseId=${encodeURIComponent(caseId)}`);
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
-      const data = await res.json();
+      const data: Message[] = await res.json();
       setMessages(data);
       setError(null);
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -34,7 +38,7 @@ const CommunicationFeed = ({ caseId }) => {
   }, [fetchMessages]);
 
   // O(1) parent lookup — avoids O(n²) find() inside each MessageBubble
-  const messageMap = useMemo(
+  const messageMap = useMemo<Record<number, Message>>(
     () => Object.fromEntries(messages.map(m => [m.id, m])),
     [messages]
   );
@@ -67,10 +71,6 @@ const CommunicationFeed = ({ caseId }) => {
       />
     </div>
   );
-};
-
-CommunicationFeed.propTypes = {
-  caseId: PropTypes.string.isRequired,
 };
 
 export default CommunicationFeed;

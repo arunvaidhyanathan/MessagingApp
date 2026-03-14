@@ -1,0 +1,279 @@
+/* ── Container ─────────────────────────────────────────────────────────── */
+.mls-container {
+  width: 100%;
+  max-width: 460px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-family: inherit;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.mls-container--open {
+  border-color: #93c5fd;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+}
+
+/* ── Search bar ────────────────────────────────────────────────────────── */
+.mls-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.mls-search-icon {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.mls-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+.mls-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.mls-back-btn,
+.mls-clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #6b7280;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.mls-back-btn:hover  { background: #e5e7eb; color: #111827; }
+.mls-clear-btn { font-size: 0.75rem; }
+.mls-clear-btn:hover { background: #fee2e2; color: #dc2626; }
+
+/* ── Confirmed chips inside the search bar ─────────────────────────────── */
+.mls-search-bar--confirmed {
+  cursor: pointer;
+  background: #eff6ff;
+  border-bottom-color: #bfdbfe;
+}
+
+.mls-search-bar--confirmed:hover {
+  background: #dbeafe;
+}
+
+.mls-chips {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mls-chip-segment {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.mls-chip {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #1e40af;
+  background: #dbeafe;
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.mls-chip-sep {
+  font-size: 0.75rem;
+  color: #93c5fd;
+}
+
+/* ── Breadcrumb ────────────────────────────────────────────────────────── */
+.mls-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 2px;
+  padding: 6px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  scrollbar-width: none;
+}
+
+.mls-breadcrumb::-webkit-scrollbar { display: none; }
+
+.mls-breadcrumb-sep {
+  color: #d1d5db;
+  flex-shrink: 0;
+}
+
+.mls-breadcrumb-item {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: #4b5563;
+  padding: 2px 4px;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mls-breadcrumb-root { font-weight: 600; color: #374151; }
+.mls-breadcrumb-current { color: #1d4ed8; font-weight: 600; pointer-events: none; }
+.mls-breadcrumb-item:hover:not(.mls-breadcrumb-current) { background: #e5e7eb; color: #111827; }
+
+/* ── Confirmed selection banner ────────────────────────────────────────── */
+.mls-confirmed {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #eff6ff;
+  border-bottom: 1px solid #bfdbfe;
+  font-size: 0.8125rem;
+  color: #1e40af;
+}
+
+.mls-confirmed-label {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.mls-confirmed-sep { color: #93c5fd; }
+
+.mls-confirmed-clear {
+  margin-left: auto;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: #93c5fd;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+.mls-confirmed-clear:hover { background: #dbeafe; color: #1d4ed8; }
+
+/* ── Node list ─────────────────────────────────────────────────────────── */
+.mls-node-list {
+  max-height: 288px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.mls-node-list::-webkit-scrollbar { width: 6px; }
+.mls-node-list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+/* ── Node row ──────────────────────────────────────────────────────────── */
+.mls-node-row {
+  display: flex;
+  align-items: center;
+  padding: 0 4px 0 16px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.12s;
+}
+
+.mls-node-row:last-child { border-bottom: none; }
+.mls-node-row:hover { background: #eff6ff; }
+.mls-node-row--disabled { opacity: 0.55; }
+.mls-node-row--disabled .mls-node-label { cursor: default; }
+
+.mls-node-label {
+  flex: 1;
+  padding: 10px 8px 10px 0;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.mls-node-label-text {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mls-node-row--disabled .mls-node-label-text {
+  color: #9ca3af;
+}
+
+.mls-node-hierarchy {
+  display: block;
+  font-size: 0.6875rem;
+  color: #9ca3af;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.mls-chevron-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #d1d5db;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.mls-node-row:hover .mls-chevron-btn { color: #3b82f6; }
+.mls-chevron-btn:hover { background: #dbeafe; color: #1d4ed8; }
+
+/* ── Empty state ───────────────────────────────────────────────────────── */
+.mls-empty {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.mls-footer {
+  padding: 6px 12px;
+  font-size: 0.6875rem;
+  color: #9ca3af;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mls-footer-hint { font-style: italic; }
+
+/* ── Status (loading / error) ──────────────────────────────────────────── */
+.mls-status {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.mls-status--error { color: #dc2626; }

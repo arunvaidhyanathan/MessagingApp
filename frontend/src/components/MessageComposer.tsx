@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { Message } from '../types';
 
-const MessageComposer = ({ caseId, replyingTo, onClearReply, onMessageSent }) => {
-  const [text, setText]       = useState('');
-  const [sending, setSending] = useState(false);
-  const [error, setError]     = useState(null);
-  const textareaRef           = useRef(null);
+interface MessageComposerProps {
+  caseId: string;
+  replyingTo: Message | null;
+  onClearReply: () => void;
+  onMessageSent: () => void;
+}
+
+const MessageComposer: React.FC<MessageComposerProps> = ({ caseId, replyingTo, onClearReply, onMessageSent }) => {
+  const [text, setText]       = useState<string>('');
+  const [sending, setSending] = useState<boolean>(false);
+  const [error, setError]     = useState<string | null>(null);
+  const textareaRef           = useRef<HTMLTextAreaElement>(null);
 
   // Auto-focus textarea when a reply is initiated
   useEffect(() => {
@@ -14,7 +21,7 @@ const MessageComposer = ({ caseId, replyingTo, onClearReply, onMessageSent }) =>
     }
   }, [replyingTo]);
 
-  const handleSend = async () => {
+  const handleSend = async (): Promise<void> => {
     if (!text.trim()) return;
     setSending(true);
     setError(null);
@@ -33,13 +40,13 @@ const MessageComposer = ({ caseId, replyingTo, onClearReply, onMessageSent }) =>
       onClearReply();
       onMessageSent();
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     } finally {
       setSending(false);
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     // Ctrl+Enter or Cmd+Enter to send
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       handleSend();
@@ -47,7 +54,7 @@ const MessageComposer = ({ caseId, replyingTo, onClearReply, onMessageSent }) =>
   };
 
   // Auto-expand textarea
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setText(e.target.value);
     e.target.style.height = 'auto';
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -58,7 +65,7 @@ const MessageComposer = ({ caseId, replyingTo, onClearReply, onMessageSent }) =>
       {replyingTo && (
         <div className="replying-to-badge">
           <span>
-            Replying to <strong>{replyingTo.senderName || replyingTo.senderType}</strong>:{' '}
+            Replying to <strong>{replyingTo.senderName ?? replyingTo.senderType}</strong>:{' '}
             {replyingTo.messageText.substring(0, 40)}{replyingTo.messageText.length > 40 ? '…' : ''}
           </span>
           <button className="clear-reply-btn" onClick={onClearReply} title="Cancel reply">✕</button>
@@ -85,13 +92,6 @@ const MessageComposer = ({ caseId, replyingTo, onClearReply, onMessageSent }) =>
       {error && <div className="composer-error">{error}</div>}
     </div>
   );
-};
-
-MessageComposer.propTypes = {
-  caseId:        PropTypes.string.isRequired,
-  replyingTo:    PropTypes.object,
-  onClearReply:  PropTypes.func.isRequired,
-  onMessageSent: PropTypes.func.isRequired,
 };
 
 export default MessageComposer;

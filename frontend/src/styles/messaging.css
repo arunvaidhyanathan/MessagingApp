@@ -81,18 +81,30 @@ body {
    ============================================================ */
 .message-wrapper {
   display: flex;
-  flex-direction: column;
-  max-width: 72%;
-}
-
-.message-wrapper.internal {
-  align-self: flex-end;
-  align-items: flex-end;
-}
-
-.message-wrapper.external {
-  align-self: flex-start;
+  flex-direction: row;
   align-items: flex-start;
+  width: 100%;
+  gap: 16px;
+}
+
+/* Left column: holds reply reference + bubble */
+.message-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.message-wrapper.internal .message-content { align-items: flex-end; }
+.message-wrapper.external .message-content { align-items: flex-start; }
+
+/* Right column: toggle, always pinned to the far right */
+.message-toggle-col {
+  width: 172px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
 }
 
 /* ============================================================
@@ -118,6 +130,7 @@ body {
   padding: 10px 14px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   min-width: 180px;
+  max-width: 540px;
 }
 
 .message-wrapper.internal .message-bubble {
@@ -214,26 +227,79 @@ body {
 .reply-btn:hover { background: #f0f0f0; }
 
 /* ============================================================
-   Visibility Toggle
+   Visibility Toggle — iOS-style switch
    ============================================================ */
-.visibility-toggle {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 2px 10px;
-  font-size: 0.75rem;
+.visibility-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  background: #f5f5f5;
-  color: #666;
-  transition: background 0.15s, color 0.15s;
+  user-select: none;
 }
 
-.visibility-toggle.active {
-  background: #e8f5e9;
-  border-color: #4caf50;
-  color: #2e7d32;
+.visibility-toggle-label--loading {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.visibility-toggle:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Track */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Slider pill */
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #ccc;
+  border-radius: 26px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+/* Thumb */
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: #1a73e8;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(18px);
+}
+
+.toggle-switch input:disabled + .toggle-slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggle-text {
+  font-size: 0.8rem;
+  color: #555;
+  white-space: nowrap;
+}
 
 /* ============================================================
    Message Composer
@@ -317,4 +383,81 @@ body {
   margin-top: 6px;
   font-size: 0.8rem;
   color: #d32f2f;
+}
+
+/* ============================================================
+   App Tabs
+   ============================================================ */
+.app-tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: 24px;
+}
+
+.app-tab {
+  padding: 6px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: #c8d6f0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.app-tab:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.app-tab--active { background: rgba(255,255,255,0.2); color: #fff; font-weight: 600; border-color: rgba(255,255,255,0.3); }
+
+/* ============================================================
+   Geo Demo Page
+   ============================================================ */
+.geo-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.geo-demo-header h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.geo-demo-desc {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.geo-demo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.geo-demo-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.geo-demo-result-label {
+  font-weight: 600;
+  color: #15803d;
+  white-space: nowrap;
+}
+
+.geo-demo-result code {
+  color: #166534;
+  font-family: monospace;
 }
